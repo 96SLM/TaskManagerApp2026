@@ -1,6 +1,5 @@
 package com.example.taskmanagerapp
 
-import android.R.attr.text
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -18,7 +17,6 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -74,16 +72,25 @@ fun TaskManagerApp() {
         TaskList(
             taskList = DataSource().loadTasks(),
         )
+
     }
 }
 //task list style
 @Composable
 fun TaskLine(tasks: Tasks, modifier: Modifier = Modifier) {
     Card(modifier = modifier) {
-        Column {
+        Row {
+            Text(
+                text = stringResource(R.string.PlaceHolder2),
+                modifier = Modifier.padding(end = 8.dp)
+            )
             Text(
                 text = LocalContext.current.getString(tasks.stringResourceId),
                 modifier = Modifier.padding(8.dp)
+            )
+            Text(
+                text = stringResource(R.string.PlaceHolder3),
+                modifier = Modifier.padding(start = 8.dp)
             )
         }
     }
