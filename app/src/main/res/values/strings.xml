@@ -3,4 +3,8 @@
     <string name="Task1">Test1</string>
     <string name="Task2">Test2</string>
     <string name="Task3">Test3</string>
+    <string name="SearchBar">Search Bar</string>
+    <string name="PlaceHolder1">Button1</string>
+    <string name="PlaceHolder2">Button2</string>
+    <string name="PlaceHolder3">Button3</string>
 </resources>
