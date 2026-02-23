@@ -4,19 +4,25 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -79,19 +85,24 @@ fun TaskManagerApp() {
 @Composable
 fun TaskLine(tasks: Tasks, modifier: Modifier = Modifier) {
     Card(modifier = modifier) {
-        Row {
-            Text(
-                text = stringResource(R.string.PlaceHolder2),
-                modifier = Modifier.padding(end = 8.dp)
+        Row(modifier = modifier
+            .padding(8.dp)
+            .fillMaxWidth(),
+            //.wrapContentWidth()
+            horizontalArrangement = Arrangement.Center
+        ){
+            Checkbox(
+                checked = false,
+                onCheckedChange = {/*ToDo*/}
             )
             Text(
                 text = LocalContext.current.getString(tasks.stringResourceId),
                 modifier = Modifier.padding(8.dp)
             )
-            Text(
-                text = stringResource(R.string.PlaceHolder3),
-                modifier = Modifier.padding(start = 8.dp)
-            )
+            Spacer(modifier = modifier.height(16.dp))
+            Button(onClick = { /*ToDo: delete from list*/}) {
+                Text(stringResource(R.string.PlaceHolder3))
+            }
         }
     }
 }
