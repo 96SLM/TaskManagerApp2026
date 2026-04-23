@@ -1,14 +1,13 @@
 package com.example.taskmanagerapp.data
 
 import com.example.taskmanagerapp.R
-import com.example.taskmanagerapp.model.Tasks
+import com.example.taskmanagerapp.model.Task
 
 class DataSource() {
-    fun loadTasks(): List<Tasks>{
-        return listOf<Tasks>(
-            Tasks(R.string.Task1),
-            Tasks(R.string.Task2),
-            Tasks(R.string.Task3)
-        )
+    fun loadTasks(): List<Task> {
+        return listOf<Task>(
+            Task(R.string.Task1),
+            Task(R.string.Task2),
+            Task(R.string.Task3))
     }
 }

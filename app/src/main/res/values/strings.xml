@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Task Manager App</string>
+    <string name="addTask">Add Task</string>
+    <string name="enterTask">Enter Task</string>
+    <!--Preview texts-->
     <string name="Task1">Test1</string>
     <string name="Task2">Test2</string>
     <string name="Task3">Test3</string>
