@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,19 +21,21 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.text.input.InputTransformation.Companion.keyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.taskmanagerapp.data.DataSource
@@ -55,7 +56,7 @@ class MainActivity : ComponentActivity() {
 //main app
 @Composable
 fun TaskManagerApp() {
-    var taskInput : MutableState<String> = mutableStateOf("Task")
+//    var taskInput : MutableState<String> = mutableStateOf("Task")
     val layoutDirection = LocalLayoutDirection.current
     Column(
         modifier = Modifier
@@ -77,10 +78,10 @@ fun TaskManagerApp() {
         )
         {
             TaskInputField(
-                task = R.string.enterTask,
-                value = taskInput.value,
-                keyboardOptions = KeyboardOptions.Default,
-                conValueChange = {taskInput = it},
+//                task = R.string.enterTask,
+//                value = taskInput.value,
+//                keyboardOptions = KeyboardOptions.Default,
+//                conValueChange = {taskInput = it},
                 modifier = Modifier
                     .padding(bottom = 32.dp)
                     .fillMaxWidth()
@@ -105,14 +106,14 @@ fun TaskInputField(
 //    onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ){
-    var taskInput = mutableStateOf("Task")
+    var taskInput by remember { mutableStateOf(" ") }
     TextField(
-        task = { Text(stringResource(task)) },
-        value = taskInput.value,
+        label = { Text(stringResource(R.string.enterTask)) },
+        value = taskInput,
         singleLine = true,
         modifier = modifier,
-        onValueChange = { taskInput.value = it },
-        keyboardOptions = keyboardOptions
+        onValueChange = { taskInput = it },
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
     )
 }
 
@@ -153,6 +154,13 @@ fun TaskList(taskList: List<Task>, modifier: Modifier = Modifier) {
         }
     }
 }
+
+/* Text Strikethrough code
+* Text(
+    text = "Strikethrough text",
+    style = TextStyle(textDecoration = TextDecoration.LineThrough)
+)
+*/
 @Preview
 @Composable
 fun TaskManagerAppPreview() {
@@ -170,7 +178,7 @@ fun TaskListPreview() {
 fun TaskLinePreview() {
     Column {
         TaskLine(Task(R.string.Task1))
-        TaskLine(Task(R.string.Task2))
-        TaskLine(Task(R.string.Task3))
+//        TaskLine(Task(R.string.Task2))
+//        TaskLine(Task(R.string.Task3))
     }
 }
