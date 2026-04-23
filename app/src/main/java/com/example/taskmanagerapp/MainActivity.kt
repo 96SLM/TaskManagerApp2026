@@ -1,9 +1,11 @@
 package com.example.taskmanagerapp
 
+import android.R.attr.checked
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,6 +20,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
@@ -31,10 +34,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.modifier.modifierLocalOf
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -57,6 +63,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun TaskManagerApp() {
     var taskInput by remember {  mutableStateOf(" ")}
+    var strikeCpltTask by remember { mutableStateOf(false) }
     val layoutDirection = LocalLayoutDirection.current
     Column(
         modifier = Modifier
@@ -78,9 +85,12 @@ fun TaskManagerApp() {
         )
         {
             TaskInputField(
-//                task = R.string.enterTask,
+               task = R.string.enterTask,
                value = taskInput,
-//                keyboardOptions = KeyboardOptions.Default,
+               keyboardOptions = KeyboardOptions.Default.copy(
+                   keyboardType = KeyboardType.Number,
+                   imeAction = ImeAction.Done
+               ),
                onValueChange = {taskInput = it},
                 modifier = Modifier
                     .padding(bottom = 4.dp)
@@ -93,6 +103,9 @@ fun TaskManagerApp() {
         }
         TaskList(
             taskList = DataSource().loadTasks(),
+            strikeCpltTask = strikeCpltTask,
+//            onStrikeCpltTaskChange { strikeCpltTask = it },
+            modifier = Modifier
         )
 
     }
@@ -100,26 +113,31 @@ fun TaskManagerApp() {
 //Text field for task input
 @Composable
 fun TaskInputField(
-//    @StringRes task: Int,
+    @StringRes task: Int,
     value: String,
-//    keyboardOptions: KeyboardOptions,
+    keyboardOptions: KeyboardOptions,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ){
 //    var taskInput by remember { mutableStateOf(" ") }
     TextField(
-        label = { Text(stringResource(R.string.enterTask)) },
+        label = { Text(stringResource(task)) },
         value = value,
         onValueChange = onValueChange,
         singleLine = true,
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        keyboardOptions = keyboardOptions,
         modifier = modifier
     )
 }
 
 //task list style
 @Composable
-fun TaskLine(task: Task, modifier: Modifier = Modifier) {
+fun TaskLine(
+    task: Task,
+    strikeCpltTask: Boolean,
+    onStrikeCpltTaskChange: (Boolean) -> Unit,
+    modifier: Modifier = Modifier
+) {
     Card(modifier = modifier) {
         Row(modifier = modifier
             .padding(8.dp)
@@ -128,8 +146,10 @@ fun TaskLine(task: Task, modifier: Modifier = Modifier) {
             horizontalArrangement = Arrangement.Center
         ){
             Checkbox(
-                checked = false,
-                onCheckedChange = {/*ToDo: task is completed, cross-out text but don't remove*/}
+                modifier = modifier
+                    .wrapContentWidth(Alignment.Start),
+                checked = strikeCpltTask,
+                onCheckedChange = onStrikeCpltTaskChange
             )
             Text(
                 text = LocalContext.current.getString(task.stringResourceId),
@@ -144,13 +164,20 @@ fun TaskLine(task: Task, modifier: Modifier = Modifier) {
 }
 //list item component
 @Composable
-fun TaskList(taskList: List<Task>, modifier: Modifier = Modifier) {
+fun TaskList(taskList: List<Task>, strikeCpltTask: Boolean, modifier: Modifier = Modifier) {
+    var strikeCpltTask by remember { mutableStateOf(false) }
+
     LazyColumn(modifier = modifier) {
         items(taskList) { tasks ->
             TaskLine(
                 task = tasks,
+                strikeCpltTask = strikeCpltTask,
+                onStrikeCpltTaskChange = {strikeCpltTask = it},
                 modifier = Modifier.padding(4.dp)
             )
+        }
+        if (strikeCpltTask ){
+            //code to strike task
         }
     }
 }
