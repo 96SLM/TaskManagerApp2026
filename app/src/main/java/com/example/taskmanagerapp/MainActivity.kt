@@ -56,7 +56,7 @@ class MainActivity : ComponentActivity() {
 //main app
 @Composable
 fun TaskManagerApp() {
-//    var taskInput : MutableState<String> = mutableStateOf("Task")
+    var taskInput by remember {  mutableStateOf(" ")}
     val layoutDirection = LocalLayoutDirection.current
     Column(
         modifier = Modifier
@@ -79,15 +79,15 @@ fun TaskManagerApp() {
         {
             TaskInputField(
 //                task = R.string.enterTask,
-//                value = taskInput.value,
+               value = taskInput,
 //                keyboardOptions = KeyboardOptions.Default,
-//                conValueChange = {taskInput = it},
+               onValueChange = {taskInput = it},
                 modifier = Modifier
-                    .padding(bottom = 32.dp)
-                    .fillMaxWidth()
+                    .padding(bottom = 4.dp)
             )
-            Spacer(modifier = Modifier.width(4.dp))
-            Button(onClick = { /*ToDo: Add to list*/}) {
+            Spacer(modifier = Modifier.width(8.dp))
+            Button(onClick = { /*ToDo: Add to list*/})
+            {
                 Text(stringResource(R.string.PlaceHolder1))
             }
         }
@@ -101,19 +101,19 @@ fun TaskManagerApp() {
 @Composable
 fun TaskInputField(
 //    @StringRes task: Int,
-//    value: String,
+    value: String,
 //    keyboardOptions: KeyboardOptions,
-//    onValueChange: (String) -> Unit,
+    onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ){
-    var taskInput by remember { mutableStateOf(" ") }
+//    var taskInput by remember { mutableStateOf(" ") }
     TextField(
         label = { Text(stringResource(R.string.enterTask)) },
-        value = taskInput,
+        value = value,
+        onValueChange = onValueChange,
         singleLine = true,
-        modifier = modifier,
-        onValueChange = { taskInput = it },
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        modifier = modifier
     )
 }
 
@@ -179,6 +179,6 @@ fun TaskLinePreview() {
     Column {
         TaskLine(Task(R.string.Task1))
 //        TaskLine(Task(R.string.Task2))
-//        TaskLine(Task(R.string.Task3))
+        TaskLine(Task(R.string.Task3))
     }
 }
