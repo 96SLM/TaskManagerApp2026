@@ -49,6 +49,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             TaskManagerAppTheme {
                 TaskManagerApp()
+
             }
         }
     }
